@@ -1,0 +1,55 @@
+{% extends 'basic.html' %}
+{% block title %}{{title}}{% endblock title %}
+{% block css %}{% endblock css %}
+{% block body %}
+
+<form class="card p-3" method="post" action="/auth/otp/">
+    <!-- <div class="mb-3">
+        <label for="first_name" class="form-label">First Name</label>
+        <input type="text" name="first_name" class="form-control" id="first_name" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="last_name" class="form-label">Last Name</label>
+        <input type="text" name="last_name" class="form-control" id="last_name" required>
+      </div> -->
+
+      <div class="mb-3">
+        <label for="otp" class="form-label">Enter Otp </label>
+        <input type="text" class="form-control" id="otp" placeholder="enter otp you recieved to your phone" required>
+      </div>
+      <h1>OTP Countdown Timer</h1>
+  <p>Please enter the OTP within the next <span id="timer">02:00</span> minutes.</p>
+
+      <br>
+    <button type="submit" class="btn btn-primary">Submit</button>
+  </form>
+
+{% endblock body %}
+{% block js %}
+<script>
+    let remainingTime = 60; // 2 minutes in seconds
+    let intervalId;
+
+    function updateTimer() {
+      const minutes = Math.floor(remainingTime / 60);
+      const seconds = remainingTime % 60;
+
+      const timerDisplay = document.getElementById('timer');
+      timerDisplay.textContent = `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+
+      if (remainingTime <= 0) {
+        clearInterval(intervalId);
+        document.getElementById('otp').classlist.add('disable');
+        timerDisplay.textContent = '00:00';
+      } else {
+        remainingTime--;
+      }
+    }
+
+    window.onload = function() {
+      updateTimer();
+      intervalId = setInterval(updateTimer, 1000);
+    };
+  </script>
+{% endblock js %}
